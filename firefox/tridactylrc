@@ -1,0 +1,51 @@
+sanitize tridactyllocal tridactylsync
+
+command openmpv js tri.native.run(`notify-send "Opening ${window.location.href.split('&')[0]}"`);tri.native.run(`mpv ${window.location.href.split('&')[0]} `).then(console.log)
+
+
+bind EE js tri.excmds.source(); tri.excmds.fillcmdline_tmp(1000, "Config realoded"); 
+bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+
+bind ` fillcmdline_notrail
+unbind <C-f>
+
+bind gd tabdetach
+bind gD winmerge
+
+unbind <C-d>
+
+blacklistadd monekytype.com
+blacklistadd http://srv:8123
+
+alias works js tri.excmds.fillcmdline_tmp(1000, "It works")
+alias wallpaper js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('/home/fobos/dotfiles/bin/wallpaper.sh ' + url))
+
+alias unsplashdownloadhint hint -pipe a[data-test="non-sponsored-photo-download-button"] href
+
+bindurl ^https://unsplash.com/ q composite unsplashdownloadhint | wallpaper
+bind e scrollpage -0.5
+bind d scrollpage 0.5
+
+unbind x
+bind x tabclose
+
+bing n findnext 
+bing N findnext -f --reverse
+
+autocmd DocLoad .* js -s ~/dotfiles/firefox/customvideohotkeys.js
+autocmd DocLoad .*olx.ua/.* js -s ~/dotfiles/firefox/olx-search-raiting.js
+
+setpref browser.pocket.enabled false
+setpref extensions.pocket.enabled false
+setpref extensions.screenshots.disabled true
+setpref toolkit.legacyUserProfileCustomizations.stylesheets true
+setpref browser.tabs.closeWindowWithLastTab false
+
+set smoothscroll false
+set newtabfocus page
+set historyresults 30
+
+set editorcmd nvim
+
+quickmark y https://www.youtube.com/
+quickmark g https://github.com/

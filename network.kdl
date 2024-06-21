@@ -1,0 +1,40 @@
+layout {
+    cwd "/home/fobos"
+    tab name="tab #1" focus=true hide_floating_panes=true {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        pane  split_direction="vertical" {
+            pane command="gping"  {
+                args "-b" "20" "8.8.8.8" "192.168.8.1"
+                start_suspended false
+            }
+            pane  {
+                pane command="sh"  {
+                    args "/home/fobos/dotfiles/bin/utils/watch.sh" "-t" "-n0.5" "iwconfig" "wlp6s0"
+                    start_suspended false
+                }
+
+
+                pane command="sh"  {
+                    args "/home/fobos/dotfiles/bin/utils/watch.sh" "-t" "-n0.5" "ip" "r"
+                    start_suspended false
+                }
+            }
+        }
+        pane  split_direction="vertical" {
+            pane command="gping"  {
+                args "-b" "20" "srv" "wghost" "vps"
+            }
+            pane  {
+
+                pane command="mtr"  {
+                    args "8.8.8.8"
+                }
+            }
+        }
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+}

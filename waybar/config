@@ -1,0 +1,278 @@
+{
+  "layer": "top",
+  "gtk-layer-shell": true,
+  "position": "top",
+  "height": 14,
+  "margin-top": 0,
+  "margin-bottom": 0,
+  "modules-left": [
+    "hyprland/workspaces",
+    "hyprland/window",
+    "sway/workspaces",
+    "sway/mode",
+    "sway/window"
+  ],
+  "modules-center": [
+    "hyprland/submap",
+    "custom/wf-recorder",
+    "custom/media",
+    "custom/wg",
+    "custom/ua",
+    "custom/ha",
+    "backlight",
+    "pulseaudio",
+    "custom/bandwidth",
+    "network",
+    "cpu",
+    "memory",
+    "temperature",
+    "battery",
+    "clock",
+    "custom/headsetbattery",
+    "hyprland/language",
+    "tray"
+  ],
+  "wlr/workspaces": {
+    "format": "{name}",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/bandwidth": {
+    "exec": "bandwidth.py"
+  },
+  "sway/window": {
+    "format": "{}",
+    "max-length": 35,
+    "icon": false,
+    "icon-size": 14
+  },
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": false,
+    "format": "{icon}"
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 1
+  },
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+  "clock": {
+    "interval": 1,
+    "format": "{:%a %d %b %H:%M}",
+    "format-alt": "{:W%W %a %d %b %H:%M:%S}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "tz_up",
+      "on-scroll-down": "tz_down"
+    },
+    "smooth-scrolling-threshold": 4
+  },
+  "backlight": {
+    "on-click": "light -S 15",
+    "on-click-right": "light -S 1",
+    "on-scroll-down": "light -U 5",
+    "on-scroll-up": "light -A 5",
+    "smooth-scrolling-threshold": 2
+  },
+  "cpu": {
+    "format": "{max_frequency} {usage:2}",
+    "interval": 2
+  },
+  "memory": {
+    "format": "{percentage:2} {swapPercentage:2}",
+    "interval": 2
+  },
+  "temperature": {
+    "thermal-zone": 0,
+    "interval": 2,
+    "critical-threshold": 75,
+    "format-critical": "{temperatureC}°",
+    "format": "{temperatureC}°"
+  },
+  "battery": {
+    "interval": 1,
+    "bat": "BAT0",
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "↑{power:.1f} {capacity}",
+    "format-alt": "↑{power:.1f} {time} {capacity}",
+    "format-discharging": "↑{power:.1f} {capacity}",
+    "format-charging": " ↓{power:.1f} {time} {capacity}%",
+    "format-time": "{H}:{M}",
+    "format-full": ""
+  },
+  "network": {
+    "format-wifi": "{signalStrength}  ",
+    "format-wifi-alt": "{bandwidthUpBytes:>}🔺 {bandwidthDownBytes:>}🔻 {signalStrength}  ",
+    "format-ethernet": "{bandwidthUpBytes:>}🔺 {plugged:>}🔻 ",
+    "format-linked": "{ifname} no IP",
+    "format-disabled": " 󰤭 ",
+    "tooltip-format": "{essid} {bandwidthUpBytes:>}🔺 {bandwidthDownBytes:>}🔻 {ifname} {ipaddr}/{cidr} {frequency}Mhz {signaldBm}dBm ",
+    "tooltip": true,
+    "format-disconnected": " 󰖪  ",
+    "interval": 2
+  },
+  "pulseaudio": {
+    "scroll-step": 5,
+    "smooth-scrolling-threshold": 2,
+    "format-source": "",
+    "format-source-muted": "<span foreground='#f53c3c'>  </span>",
+    "format": "{volume} {icon}  {format_source}",
+    "format-bluetooth": "{volume}  {format_source}",
+    "format-muted": "<span foreground='#f53c3c'></span>   {format_source}",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        ""
+      ]
+    },
+    "on-click": "pavucontrol",
+    "on-click-right": "bt_audio_status.sh toggle &> /dev/null"
+  },
+  "hyprland/language": {
+    "format": "{shortDescription}"
+  },
+  "sway/language": {
+    "format": "{shortDescription}"
+  },
+  "custom/wg": {
+    "tooltip": false,
+    "on-click": "wg_toggle.sh vps",
+    "exec": "con_status.sh vps W",
+    "signal": 9,
+    "interval": "once",
+    "return-type": "json"
+  },
+  "custom/p": {
+    "tooltip": false,
+    "on-click": "wg_toggle.sh proton",
+    "exec": "con_status.sh proton P",
+    "signal": 9,
+    "interval": "once",
+    "return-type": "json"
+  },
+  "custom/ua": {
+    "tooltip": false,
+    "on-click": "wg_toggle.sh ua",
+    "exec": "con_status.sh ua U",
+    "signal": 9,
+    "interval": "once",
+    "return-type": "json"
+  },
+  "custom/weather": {
+    "tooltip": true,
+    "format": "{}",
+    "tooltip-format": "{}",
+    "exec": "weather_status.sh",
+    "on-click": "weather_status.sh",
+    "return-type": "json",
+    "interval": 1200
+  },
+  "custom/ha": {
+    "format": " {}",
+    "exec": "ha_status.sh | tr -s '\n'",
+    "on-click": "ha_status.sh | tr -s '\n'",
+    "on-click-right": "xdg-open http://srv:8123/lovelace/remote",
+    "interval": 60
+  },
+  "custom/transmission": {
+    "tooltip": false,
+    "exec": "torrent_status.sh",
+    "interval": 3,
+    "on-click": "xdg-open 'http://127.0.0.1:9091/transmission/web/'"
+  },
+  "custom/wf-recorder": {
+    "format": " ● ",
+    "interval": "once",
+    "signal": 8,
+    "exec": "pgrep 'wf-recorder'",
+    "tooltip": false,
+    "on-click": "screenrecord.sh"
+  },
+  "custom/playerctl": {
+    "exec": "playerctl --follow metadata --player playerctld --format $'  {{emoji(status)}}  '   2> /dev/null",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next 2> /dev/null",
+    "on-click-middle": "playerctl previous 2> /dev/null",
+    "on-scroll-up": "playerctl position 3+",
+    "on-scroll-down": "playerctl position 3-"
+  },
+  "custom/dunst": {
+    "exec": "dunst_status.sh",
+    "on-click": "dunstctl set-paused toggle",
+    "restart-interval": 1
+  },
+  "custom/updates": {
+    "format": "{} ",
+    "interval": 3600,
+    "exec": "updates_status.sh",
+    "exec-if": "exit 0",
+    "on-click": "foot -e zsh -c 'sudo pacman -Sy'; pkill -SIGRTMIN+8 waybar",
+    "signal": 8
+  },
+  "custom/headsetbattery": {
+    "format": "{} ",
+    "interval": 2,
+    "exec": "upower -d | grep -A12 -E 'headset|headphones|MOMENTUM' | grep percentage | awk '{print $2}' | tr -d '%'"
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 14,
+    "all-outputs": true,
+    "icon-theme": "Numix-Circle",
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+  "custom/media": {
+    "format": "{icon}{}",
+    "return-type": "json",
+    "format-icons": {
+      "Playing": " ",
+      "Paused": " "
+    },
+    "max-length": 40,
+    "exec": "playerctl -a metadata --format '{\"text\": \"\", \"tooltip\": \"{{playerName}} : {{artist}} {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click": "playerctl play-pause"
+  },
+  "upower": {
+    "format": "test {percentage} ",
+    "icon-size": 14,
+    "hide-if-empty": true,
+    "tooltip": true,
+    "tooltip-spacing": 20
+  }
+}

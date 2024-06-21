@@ -1,0 +1,268 @@
+/* TODO: clean this mess */
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "DejaVuSansM Nerd Font";
+  font-size: 12px;
+  min-height: 0;
+  text-shadow: 0px 0px 2px #222;
+  text-shadow:none;
+}
+
+window .modules-left,
+window .modules-center,
+window .modules-right {
+  padding: 0px 8px 0px 8px;
+  background: rgba(35, 35, 35, 0.3);
+}
+
+window {
+  margin: 0px;
+  opacity: 0.4;
+}
+
+window .modules-left {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+window .modules-right {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  background: transparent;
+}
+
+window .modules-center {
+  border-radius: 16px;
+}
+window#waybar {
+  background: rgba(35, 35, 35, 0.0);
+}
+
+#window,
+#network,
+#clock,
+#custom-weather,
+#pulseaudio {
+  font-family: "NotoSans Nerd Font";
+  font-family: "NotoSans Nerd Font";
+}
+
+button {
+  padding: 0;
+  margin: 0;
+}
+
+window > box {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  background: rgba(43, 48, 59, 0);
+  color: white;
+  border-radius: 16px;
+}
+
+#workspaces button {
+  font-weight: bolder;
+  margin: 0px;
+  padding: 0px 2px 0px 2px;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 24px;
+  box-shadow: inset 0 -3px transparent;
+}
+
+#workspaces button:hover {
+  background: transparent;
+  box-shadow: inset 0 -3px transparent;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+  background: transparent;
+  box-shadow: inset 0 -1px #ffffff;
+  color: rgba(255, 255, 255, 1);
+}
+
+#workspaces button.urgent {
+  box-shadow: inset 0 -3px #cc6666;
+  color: #cc6666;
+}
+
+#submap {
+  font-weight: bolder;
+  color: #222;
+  background: #eee;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-shadow: none;
+}
+
+#mpd.stopped {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+#idle_inhibitor.deactivated {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+#network.disconnected,
+#network.disabled {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+label {
+  margin: 0 2px;
+  padding: 0 2px;
+}
+
+#clock {
+  /* font-weight: bolder; */
+}
+
+@keyframes blink {
+  to {
+    color: #ffffff;
+  }
+}
+
+#battery.critical:not(.charging) {
+  background-color: #f53c3c;
+  color: #111;
+}
+
+#battery.warning:not(.charging) {
+  background-color: #ff9800;
+  color: #111;
+}
+
+#battery.charging {
+  color: #4caf50;
+}
+
+#custom-powernow,
+#battery {
+  color: #1abc9c;
+}
+
+#custom-avrppt {
+  color: #ffff7e;
+}
+
+#custom-headsetbattery {
+  color: #3498db;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .active {
+  margin: 0px;
+  padding: 0px;
+}
+
+#tray {
+  margin: 0px;
+  padding: 0px;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#language {
+  min-width: 16px;
+}
+
+#cpu {
+  color: #ff9800;
+}
+
+#memory {
+  color: #80c882;
+}
+
+#backlight {
+  color: #bbb;
+}
+
+#network {
+}
+
+#network .speed {
+  color: gray;
+}
+
+#network.disconnected {
+  background: #f53c3c;
+}
+
+#temperature:hover {
+}
+
+#temperature.critical {
+  color: #f53c3c;
+}
+
+#custom-wg,
+#custom-p,
+#custom-ua {
+  color: #ddd;
+}
+
+#custom-wg.active,
+#custom-p.active,
+#custom-ua.active {
+  color: rgb(102, 220, 105);
+}
+
+#custom-netspeed {
+  font-family: "DejaVuSansM Nerd Font";
+}
+
+#custom-weather {
+  color: #79bbe7;
+}
+
+#bluetooth {
+  color: #3498db;
+}
+
+#custom-cpufreq {
+  color: #95a5a6;
+}
+
+#custom-transmission {
+  color: #e67e22;
+  margin: 0 5px;
+  /* font-size: 15px; */
+}
+
+#custom-playerctl {
+  color: gray;
+}
+
+#custom-ethusd {
+  color: #ccc;
+}
+
+#custom-pomo {
+  color: #ccc;
+}
+
+#clock {
+  font-weight: bold;
+}
+
+#custom-dunst {
+  margin-right: 8px;
+}
+
+#taskbar button.active {
+  border-bottom: 1px solid white;
+}
+
+tooltip {
+  font-family: "DejaVuSansM Nerd Font";
+}
