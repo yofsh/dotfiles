@@ -1,4 +1,22 @@
 return {
+ {
+    "nvim-telescope/telescope.nvim",
+    opts = function()
+      local conf = require "nvchad.configs.telescope"
+      conf.defaults = {
+        mappings = {
+          i = {
+            ["<C-Down>"] = require("telescope.actions").cycle_history_next,
+            ["<C-up"] = require("telescope.actions").cycle_history_prev,
+          }
+        },
+        layout_config = {
+          horizontal = { width = 0.99, height = 0.99 }
+        }
+      }
+      return conf
+    end,
+  },
   {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre',
@@ -84,13 +102,33 @@ return {
     },
      event = "VeryLazy",
     config = function() 
-      require("codecompanion").setup({
-        strategies = {
-          chat = "ollama",
-          inline = "ollama",
-          agent = "ollama"
-        },
-      })
+      -- require("codecompanion").setup({
+      --   strategies = {
+      --     chat = "ollama",
+      --     inline = "ollama",
+      --     agent = "ollama"
+      --   },
+      -- })
+
+require("codecompanion").setup({
+  adapters = {
+    openai = require("codecompanion.adapters").use("openai", {
+            schema = {
+              model = {
+                default = "gpt-4o"
+              }
+            },
+      env = {
+        api_key = "OPENAI_API_KEY",
+      },
+    }),
+    strategies = {
+      chat = "openai",
+      inline = "openai",
+      agent = "openai"
+    },
+  },
+})
     end
   },
   { 
@@ -101,4 +139,76 @@ return {
     end,
     event = "VeryLazy",
   },
+  { 
+    'echasnovski/mini.surround',
+    version = false,
+    config = function() 
+      require('mini.surround').setup(
+{
+  -- Add custom surroundings to be used on top of builtin ones. For more
+  -- information with examples, see `:h MiniSurround.config`.
+  custom_surroundings = nil,
+
+  -- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
+  highlight_duration = 500,
+
+  -- Module mappings. Use `''` (empty string) to disable one.
+  mappings = {
+    add = 'ys', -- Add surrounding in Normal and Visual modes
+    delete = 'ds', -- Delete surrounding
+    -- find = 'sf', -- Find surrounding (to the right)
+    -- find_left = 'sF', -- Find surrounding (to the left)
+    -- highlight = 'sh', -- Highlight surrounding
+    replace = 'cs', -- Replace surrounding
+    update_n_lines = 'ns', -- Update `n_lines`
+
+    suffix_last = 'l', -- Suffix to search with "prev" method
+    suffix_next = 'n', -- Suffix to search with "next" method
+  },
+
+  -- Number of lines within which surrounding is searched
+  n_lines = 20,
+
+  -- Whether to respect selection type:
+  -- - Place surroundings on separate lines in linewise mode.
+  -- - Place surroundings on each line in blockwise mode.
+  respect_selection_type = false,
+
+  -- How to search for surrounding (first inside current line, then inside
+  -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
+  -- 'cover_or_nearest', 'next', 'prev', 'nearest'. For more details,
+  -- see `:h MiniSurround.config`.
+  search_method = 'cover',
+
+  -- Whether to disable showing non-error feedback
+  silent = false,
+}
+
+      )
+    end,
+    event = "VeryLazy",
+  },
+{
+  "folke/flash.nvim",
+  event = "VeryLazy",
+  ---@type Flash.Config
+  opts = {},
+  -- stylua: ignore
+  keys = {
+    { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+    { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+    { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+    { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+  },
+},
+   {
+
+  event = "VeryLazy",
+    'ruifm/gitlinker.nvim',
+    config = function()
+
+    end
+}
+
 }

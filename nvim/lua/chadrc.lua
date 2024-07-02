@@ -5,17 +5,16 @@
 local M = {}
 
 M.ui = {
-	theme = "ayu_dark",
-  transparency = true
-
-	-- hl_override = {
-	-- 	Comment = { italic = true },
-	-- 	["@comment"] = { italic = true },
-	-- },
+  theme = "ayu_dark",
+  transparency = true,
+  cmp = {
+    style = "atom_colored"
+  },
+  -- telescope = {
+  --   style = "borderless"
+  -- }
+   telescope = { style = "borderless" },
 }
 
-M.cmp = {
-    style = "flat_dark"
-}
 
 return M
