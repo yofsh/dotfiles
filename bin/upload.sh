@@ -1,11 +1,15 @@
 #!/bin/sh
 USER="fobos"
 SERVER_URL="yof.sh"
-DESTINATION="httpdocs"
+DESTINATION="www"
 NOTIFICATION_ENABLED=true
 rand=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 6 | head -n 1)
 SUCCESS_ICON=/usr/share/icons/Papirus/48x48/emblems/checkmark.svg
 
+echo $0;
+echo $1;
+echo "$@";
+exit 1;
 #FIXME: brokken when Yazi pass path with spacebar :/
 
 notify_send() {

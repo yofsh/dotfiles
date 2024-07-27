@@ -13,6 +13,8 @@ exec(
 	false
 )
 
+cmd([[autocmd TermClose term://* lua vim.api.nvim_input("<CR>")]])
+
 -- apply filetype for custom files
 cmd([[au BufRead,BufNewFile */sway/config set ft=config]])
 cmd([[au BufRead,BufNewFile */waybar/config set ft=json]])
@@ -67,8 +69,8 @@ map("n", "<leader>gG", '<cmd>!footclient -e zsh -c "source ~/.zshrc; lazygit"<CR
 map("n", "<leader>gg", function() 
   require("nvchad.term").toggle { pos = "float", id = "lazygit", cmd ='lazygit;exit', float_opts = {
       border = "single",
-    width= 1,
-    height= 1
+    width= 0.98,
+    height= 0.95
   } }
 end)
 
@@ -79,9 +81,6 @@ map({ "n", "t" }, "<A-`>", function()
     height= 0.6
   } }
 end, { desc = "Terminal Toggle Floating term" })
-
-
-
 
 
 map("n", "<leader>cf", ":lua vim.lsp.buf.format()<CR>")
@@ -125,3 +124,7 @@ vim.api.nvim_set_keymap(
         ":lua require'telescope'.extensions.project.project{display_type = 'full'}<CR>",
         {noremap = true, silent = true}
 )
+
+
+map("n", "gd", "<cmd>Telescope lsp_definitions<CR>")
+map("n", "gr", "<cmd>Telescope lsp_references<CR>")
