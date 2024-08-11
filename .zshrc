@@ -2,7 +2,6 @@ if [ -d "$HOME/bin" ]; then
 	export PATH="$HOME/bin:$HOME/bin/status:$HOME/bin/utils:$PATH"
 fi
 
-
 	export PATH="$HOME/dotfiles/bin:$HOME/dotfiles/bin/status:$HOME/dotfiles/bin/utils:$PATH"
 
 nvimman() {
@@ -18,6 +17,11 @@ ec() {
   nvim nixos/configuration.nix
 }
 
+alias zz="zellij"
+alias za="zellij attach || zellij"
+alias zka="zellij kill-all-sessions"
+alias zda="zellij delete-all-sessions"
+
 alias hs="nh home switch ~/nix"
 alias os="nh os switch ~/nix"
 # alias s="nh search"
@@ -32,8 +36,11 @@ res=$(nh search $1 | \
         } 
         printf "\0"
       }'  |  fzf --read0 --delimiter=$'\0' --tac | cut -d ' ' -f 1 | tr -d "\n")
+if [ -z "$res" ]; then
+    echo "No package selected, exiting."
+    exit 1
+fi
 echo "Starting shell with package $res"
-
 # nix shell "nixpkgs#$($pacakge)"
 print -s "nix-shell -p $res --command zsh"
 nix-shell -p "$res"  --command "zsh"
@@ -81,7 +88,9 @@ alias wd="watch -d=permanent --color -n1"
 alias rmmeta="exiftool -all= "
 alias lsmeta="exiftool -l"
 
-alias l='ls -lah --color --group-directories-first'
+alias l='exa -lah   --group-directories-first'
+alias ls='exa'
+alias lt='exa -lah   --group-directories-first -s time'
 alias wifipw='nmcli dev wifi show-password'
 alias -g ssh="TERM=xterm-256color ssh"
 
