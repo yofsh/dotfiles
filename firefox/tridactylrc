@@ -16,6 +16,7 @@ unbind <C-d>
 
 blacklistadd monekytype.com
 blacklistadd http://srv:8123
+blacklistadd ha
 
 alias works js tri.excmds.fillcmdline_tmp(1000, "It works")
 alias wallpaper js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('/home/fobos/dotfiles/bin/wallpaper.sh ' + url))
