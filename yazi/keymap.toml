@@ -151,6 +151,7 @@ keymap = [
 	{ on = [ "g", "d" ],       run = "cd ~/dl",   desc = "Go to the downloads directory" },
 	{ on = [ "g", "n" ],       run = "cd ~/nix",          desc = "Go to the nix config directory" },
 	{ on = [ "U" ],       run = 'shell "upload.sh $@" --confirm --block',          desc = "Upload to remote" },
+	{ on = [ "W" ],       run = 'shell "set_wallpaper.sh $@" --confirm',          desc = "Set wallpaper" },
 	{ on = [ "!" ],       run = 'shell "$SHELL" --confirm --block',          desc = "Run shell here" }
 ]
 
