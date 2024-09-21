@@ -48,7 +48,7 @@ s() {
   nix-shell -p "$res" --command "zsh"
 }
 
-alias -g nmap="/usr/bin/nmap $@ $(ip -o -f inet addr show | awk '/scope global/ {print $4}' | head -n1)"
+# alias -g nmap="/usr/bin/nmap $@ $(ip -o -f inet addr show | awk '/scope global/ {print $4}' | head -n1)"
 
 um() {
   if [[ -z "$1" ]]; then
@@ -255,8 +255,8 @@ if [[ -z $DISPLAY && $TTY = /dev/tty1 ]]; then
       fi
     done
   }
-  export WLR_DRM_DEVICES=$(get_amd_device)
-  exec Hyprland &>/dev/null
+  # export WLR_DRM_DEVICES=$(get_amd_device)
+  # exec Hyprland &>/dev/null
 fi
 
 mvp_get() {

@@ -5,20 +5,13 @@
   "height": 14,
   "margin-top": 0,
   "margin-bottom": 0,
-  "modules-left": [
-    "hyprland/workspaces",
-    "hyprland/window",
-    "sway/workspaces",
-    "sway/mode",
-    "sway/window"
-  ],
+  "modules-left": [],
   "modules-center": [
+    "hyprland/window",
+    "hyprland/workspaces",
     "hyprland/submap",
     "custom/wf-recorder",
     "custom/media",
-    "custom/wg",
-    "custom/ua",
-    "custom/ha",
     "backlight",
     "pulseaudio",
     "custom/bandwidth",
@@ -33,24 +26,43 @@
     "hyprland/language",
     "tray"
   ],
-  "wlr/workspaces": {
-    "format": "{name}",
+  "hyprland/workspaces": {
+    "format": "{icon}",
     "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1"
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "show-special": true,
+    "format-icons": {
+      "ha": "󰟐",
+      "term": "",
+      "music": "󰎇",
+      "tg": "",
+      "audio": "",
+      "bt": "󰂯"
+    },
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": []
+    }
+  },
+  "hyprland/window": {
+    "format": "{title}",
+    "on-click": "VAR=$(hyprctl activewindow -j | jq -r .title) && notify-send -u low -t 2000 \"Window title\" \"$VAR\" | wl-copy \"$VAR\"",
+    "on-click-right": "VAR=$(hyprctl activewindow -j | jq -r .class) && notify-send -u low -t 2000 \"Window class\" \"$VAR\" | wl-copy \"$VAR\"",
+    "on-click-middle": "VAR=$(hyprctl activewindow) && notify-send -u low -t 2000 \"Window hyprland info\" \"$VAR\" | wl-copy \"$VAR\"",
+    "max-length": 20,
+    "icon": true,
+    "icon-size": 14,
+    "rewrite": {
+      "(.*) — Mozilla Firefox": "$1 - 🌎"
+    },
+    "separate-outputs": true
   },
   "custom/bandwidth": {
     "exec": "bandwidth.py"
-  },
-  "sway/window": {
-    "format": "{}",
-    "max-length": 35,
-    "icon": false,
-    "icon-size": 14
-  },
-  "sway/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": false,
-    "format": "{icon}"
   },
   "tray": {
     "icon-size": 14,
@@ -101,7 +113,7 @@
     "smooth-scrolling-threshold": 2
   },
   "cpu": {
-    "format": "{max_frequency} {usage:2}",
+    "format": "{max_frequency} {usage:<3}",
     "interval": 2
   },
   "memory": {
@@ -117,7 +129,7 @@
   },
   "battery": {
     "interval": 1,
-    "bat": "BAT0",
+    "bat": "BATT",
     "states": {
       "warning": 30,
       "critical": 15
@@ -164,9 +176,6 @@
     "on-click-right": "bt_audio_status.sh toggle &> /dev/null"
   },
   "hyprland/language": {
-    "format": "{shortDescription}"
-  },
-  "sway/language": {
     "format": "{shortDescription}"
   },
   "custom/wg": {
@@ -267,7 +276,11 @@
     },
     "max-length": 40,
     "exec": "playerctl -a metadata --format '{\"text\": \"\", \"tooltip\": \"{{playerName}} : {{artist}} {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-    "on-click": "playerctl play-pause"
+    "on-click": "playerctl play-pause",
+    "on-click-middle": "xdg-open \"https://genius.com/search?q=$(playerctl metadata --format '{{ artist }} - {{ title }}')\"",
+    "on-click-right": "playerctl next 2> /dev/null",
+    "on-scroll-up": "playerctl position 3+",
+    "on-scroll-down": "playerctl position 3-"
   },
   "upower": {
     "format": "test {percentage} ",
@@ -285,6 +298,6 @@
       "performance": "",
       "balanced": "",
       "power-saver": ""
+    }
   }
-}
 }

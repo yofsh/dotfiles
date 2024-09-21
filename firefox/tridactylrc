@@ -13,10 +13,15 @@ bind gd tabdetach
 bind gD winmerge
 
 unbind <C-d>
+unbind <C-e>
 
+blacklistadd monekytype.com
 blacklistadd monekytype.com
 blacklistadd http://srv:8123
 blacklistadd ha
+blacklistadd console.hetzner.cloud
+blacklistadd web.telegram.org
+
 
 alias works js tri.excmds.fillcmdline_tmp(1000, "It works")
 alias wallpaper js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('/home/fobos/dotfiles/bin/wallpaper.sh ' + url))
