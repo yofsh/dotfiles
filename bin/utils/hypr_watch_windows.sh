@@ -1,12 +1,14 @@
 #!/usr/bin/env zsh
 
-chatTitle=".*YouTube Music.*"
-haTitle=".*Home – Home Assistant.*"
-tgTitle=".*Telegram — Mozilla Firefox.*"
-bwTitle="Extension: (Bitwarden Password Manager) - Bitwarden — Mozilla Firefox"
+music="YouTube Music — Mozilla Firefox"
+ha="Home Overview – Home Assistant — Mozilla Firefox"
+tg="Telegram — Mozilla Firefox"
+bw="Extension: (Bitwarden Password Manager) - Bitwarden — Mozilla Firefox"
+gpt="Open WebUI — Mozilla Firefox"
 
 floating() {
   hyprctl dispatch setfloating "$1"
+  sleep 0.2
 }
 
 move_workspace() {
@@ -15,6 +17,7 @@ move_workspace() {
 
 resize() {
   hyprctl dispatch resizewindowpixel exact "$2" "$3,$1"
+  sleep 0.4
 }
 
 center() {
@@ -28,31 +31,47 @@ handle_window() {
 
   [[ "$event" != "windowtitlev2" ]] && return
   echo "EVENT: $@"
-  echo "Processing window $window with title: $title"
+  echo "W: $window"
+  echo "T: $title"
 
-  if [[ "$title" =~ $chatTitle ]]; then
-    floating "$window"
-    resize "$window" "1740" "95%"
-    center "$window"
-    move_workspace "$window" "music"
+  case "$title" in
+    ($music)
+      floating "$window"
+      resize "$window" "1740" "95%"
+      center "$window"
+      move_workspace "$window" "music"
+      ;;
+    
+    ($ha)
+      floating "$window"
+      resize "$window" "1740" "95%"
+      center "$window"
+      move_workspace "$window" "ha"
+      ;;
+    
+    ($tg)
+      floating "$window"
+      resize "$window" "900" "95%"
+      center "$window"
+      move_workspace "$window" "tg"
+      ;;
+    
+    ($bw)
+      floating "$window"
+      resize "$window" "400" "600"
+      center "$window"
+      ;;
 
-  elif [[ "$title" =~ $haTitle ]]; then
-    floating "$window"
-    resize "$window" "1740" "95%"
-    center "$window"
-    move_workspace "$window" "ha"
-
-  elif [[ "$title" =~ $tgTitle ]]; then
-    floating "$window"
-    resize "$window" "900" "95%"
-    center "$window"
-    move_workspace "$window" "tg"
-
-  elif [[ "$title" == $bwTitle ]]; then
-    floating "$window"
-    resize "$window" "400" "600"
-    center "$window"
-  fi
+    ($gpt)
+      floating "$window"
+      resize "$window" "1740" "95%"
+      center "$window"
+      move_workspace "$window" "gpt"
+      ;;
+    
+    (*)
+      ;;
+  esac
 
   echo ""
 }
