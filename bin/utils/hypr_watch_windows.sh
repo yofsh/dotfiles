@@ -9,9 +9,8 @@ floating() {
   hyprctl dispatch setfloating "$1"
 }
 
-
 move_workspace() {
-  hyprctl dispatch movetoworkspacesilent "special:$1,$2"
+  hyprctl dispatch movetoworkspacesilent "special:$2,$1"
 }
 
 resize() {
@@ -24,36 +23,38 @@ center() {
 
 handle_window() {
   local event="${1:0:13}"
-  local title="${1:23}"
-  local window="address:0x${1:15:7}"
+  local title="${1:24}"
+  local window="address:0x${1:15:8}"
 
   [[ "$event" != "windowtitlev2" ]] && return
-
+  echo "EVENT: $@"
   echo "Processing window $window with title: $title"
 
   if [[ "$title" =~ $chatTitle ]]; then
     floating "$window"
-    move_workspace $window "music"
     resize "$window" "1740" "95%"
     center "$window"
+    move_workspace "$window" "music"
 
   elif [[ "$title" =~ $haTitle ]]; then
     floating "$window"
-    move_workspace $window "ha"
     resize "$window" "1740" "95%"
     center "$window"
+    move_workspace "$window" "ha"
 
   elif [[ "$title" =~ $tgTitle ]]; then
     floating "$window"
-    move_workspace $window "tg"
     resize "$window" "900" "95%"
     center "$window"
+    move_workspace "$window" "tg"
 
   elif [[ "$title" == $bwTitle ]]; then
     floating "$window"
     resize "$window" "400" "600"
     center "$window"
   fi
+
+  echo ""
 }
 
 socat - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" | while read -r line; do
