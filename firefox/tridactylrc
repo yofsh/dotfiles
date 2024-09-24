@@ -3,7 +3,7 @@ sanitize tridactyllocal tridactylsync
 command openmpv js tri.native.run(`notify-send "Opening ${window.location.href.split('&')[0]}"`);tri.native.run(`mpv ${window.location.href.split('&')[0]} `).then(console.log)
 
 
-bind EE js tri.excmds.source(); tri.excmds.fillcmdline_tmp(1000, "Config realoded"); 
+bind EE js tri.excmds.source(); tri.excmds.fillcmdline_tmp(1000, "Config reloaded!!!"); 
 bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
 
 bind ` fillcmdline_notrail
@@ -16,14 +16,12 @@ unbind <C-d>
 unbind <C-e>
 
 blacklistadd monekytype.com
-blacklistadd monekytype.com
 blacklistadd http://srv:8123
 blacklistadd ha
 blacklistadd console.hetzner.cloud
 blacklistadd web.telegram.org
 
-
-alias works js tri.excmds.fillcmdline_tmp(1000, "It works")
+alias works js tri.excmds.fillcmdline_tmp(3000, "It works")
 alias wallpaper js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('/home/fobos/dotfiles/bin/wallpaper.sh ' + url))
 
 alias unsplashdownloadhint hint -pipe a[data-test="non-sponsored-photo-download-button"] href
@@ -32,6 +30,7 @@ bindurl ^https://unsplash.com/ q composite unsplashdownloadhint | wallpaper
 bind e scrollpage -0.5
 bind d scrollpage 0.5
 
+unbind $
 unbind x
 bind x tabclose
 
@@ -40,6 +39,15 @@ bing N findnext -f --reverse
 
 autocmd DocLoad .* js -s ~/dotfiles/firefox/customvideohotkeys.js
 autocmd DocLoad .*olx.ua/.* js -s ~/dotfiles/firefox/olx-search-raiting.js
+
+#autocmd DocLoad .*google.com.* works
+
+unbindurl *.gpt.yof.sh.* s
+bindurl .*gpt.yof.sh.* s js document.querySelector('[aria-label="Select a model"]').click();
+
+
+unbindurl *.gpt.yof.sh.* n
+bindurl .*gpt.yof.sh.* n js document.querySelector('#sidebar-new-chat-button').click();
 
 setpref browser.pocket.enabled false
 setpref extensions.pocket.enabled false

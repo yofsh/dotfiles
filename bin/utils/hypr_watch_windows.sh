@@ -8,7 +8,7 @@ gpt="Open WebUI — Mozilla Firefox"
 
 floating() {
   hyprctl dispatch setfloating "$1"
-  sleep 0.2
+  # sleep 0.2
 }
 
 move_workspace() {
@@ -17,7 +17,7 @@ move_workspace() {
 
 resize() {
   hyprctl dispatch resizewindowpixel exact "$2" "$3,$1"
-  sleep 0.4
+  # sleep 0.4
 }
 
 center() {
@@ -25,9 +25,9 @@ center() {
 }
 
 handle_window() {
-  local event="${1:0:13}"
-  local title="${1:24}"
-  local window="address:0x${1:15:8}"
+  IFS='>' read -r event rest <<< "$1"
+  IFS=',' read -r address title <<< "$rest"
+  local window="address:0x${address:1}"
 
   [[ "$event" != "windowtitlev2" ]] && return
   echo "EVENT: $@"
@@ -40,6 +40,7 @@ handle_window() {
       resize "$window" "1740" "95%"
       center "$window"
       move_workspace "$window" "music"
+      center "$window"
       ;;
     
     ($ha)
@@ -47,6 +48,7 @@ handle_window() {
       resize "$window" "1740" "95%"
       center "$window"
       move_workspace "$window" "ha"
+      center "$window"
       ;;
     
     ($tg)
@@ -54,6 +56,7 @@ handle_window() {
       resize "$window" "900" "95%"
       center "$window"
       move_workspace "$window" "tg"
+      center "$window"
       ;;
     
     ($bw)
@@ -67,6 +70,7 @@ handle_window() {
       resize "$window" "1740" "95%"
       center "$window"
       move_workspace "$window" "gpt"
+      center "$window"
       ;;
     
     (*)
