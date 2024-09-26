@@ -12,13 +12,14 @@ alias man='nvimman'
 alias reboot_windows="systemctl reboot --boot-loader-entry=auto-windows"
 alias next_boot_windows="sudo bootctl set-oneshot auto-windows"
 
-ec() {
-  cd ~/nix
-  nvim nixos/configuration.nix
+nix_build_iso() {
+  export NIXPKGS_ALLOW_BROKEN=1
+  nix run nixpkgs#nixos-generators -- --format iso --flake ~/nix#iso -o ~/nix/$(date +"nix_iso_%Y_%m_%d__%H_%M_%S") 
 }
 
 alias ai="aichat"
 alias aic="aichat --role %code%"
+alias ais="aichat --role %shell%"
 
 alias zz="zellij"
 alias za="zellij attach || zellij"

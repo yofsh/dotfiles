@@ -126,16 +126,12 @@ return {
 
 			require("codecompanion").setup({
 				adapters = {
-					openai = require("codecompanion.adapters").use("openai", {
-						schema = {
-							model = {
-								default = "gpt-4o",
+					openai = function()
+						return require("codecompanion.adapters").extend("openai", {
+							env = {
 							},
-						},
-						env = {
-							api_key = "OPENAI_API_KEY",
-						},
-					}),
+						})
+					end,
 					strategies = {
 						chat = "openai",
 						inline = "openai",
@@ -220,9 +216,8 @@ return {
 	},
 	{
 		event = "VeryLazy",
-		"jose-elias-alvarez/typescript.nvim",
-		config = function()
-			require("typescript").setup({})
-		end,
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
 	},
 }
