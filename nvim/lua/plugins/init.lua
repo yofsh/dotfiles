@@ -92,7 +92,7 @@ return {
 						-- theme = "dropdown",
 						-- order_by = "asc",
 						-- search_by = "title",
-						-- sync_with_nvim_tree = true, -- default false
+						sync_with_nvim_tree = true, -- default false
 						-- default for on_project_selected = find project files
 						on_project_selected = function(prompt_bufnr)
 							-- Do anything you want in here. For example:
@@ -107,40 +107,6 @@ return {
 			})
 		end,
 	},
-	-- {
-	-- 	"olimorris/codecompanion.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 	},
-	-- 	event = "VeryLazy",
-	-- 	config = function()
-	-- 		-- require("codecompanion").setup({
-	-- 		--   strategies = {
-	-- 		--     chat = "ollama",
-	-- 		--     inline = "ollama",
-	-- 		--     agent = "ollama"
-	-- 		--   },
-	-- 		-- })
-	--
-	-- 		require("codecompanion").setup({
-	-- 			adapters = {
-	-- 				openai = function()
-	-- 					return require("codecompanion.adapters").extend("openai", {
-	-- 						env = {
-	-- 						},
-	-- 					})
-	-- 				end,
-	-- 				strategies = {
-	-- 					chat = "openai",
-	-- 					inline = "openai",
-	-- 					agent = "openai",
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
 	{
 		"echasnovski/mini.ai",
 		version = false,
