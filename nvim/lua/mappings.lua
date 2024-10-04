@@ -1,40 +1,6 @@
 require("nvchad.mappings")
 
-local cmd = vim.cmd
-local exec = vim.api.nvim_exec
 local map = vim.keymap.set
-
--- highlight on yank
-exec(
-	[[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=150}
-  augroup end
-]],
-	false
-)
--- auto close terminal when process exited
-cmd([[autocmd TermClose term://* lua vim.api.nvim_input("<CR>")]])
-
--- apply filetype for custom files
-cmd([[au BufRead,BufNewFile */sway/config set ft=config]])
-cmd([[au BufRead,BufNewFile */waybar/config set ft=json]])
-
--- write on save for MD files
-cmd([[autocmd BufNewFile,BufRead *.md :autocmd TextChanged,TextChangedI <buffer> silent write]])
-
--- do not comment new lines
-cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
-
-cmd([[
-augroup _env
-   autocmd!
-   autocmd BufReadPre,FileReadPre,BufEnter .env lua vim.diagnostic.disable(0)
-  augroup end
-   ]])
-
------------------------
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
 -- map("i", "jk", "<ESC>")
@@ -48,7 +14,7 @@ map("n", "<leader>rr", "<cmd>Telescope resume<CR>", { desc = "Resume last search
 
 map("n", "<leader>pp", function()
 	require("telescope").extensions.project.project({})
-end)
+end, {desc="Find project qwe qwe"})
 
 map("n", "<A-x>", "<cmd>Telescope commands<CR>")
 map("n", "<A-z>", "<cmd>Telescope command_history<CR>")
@@ -120,11 +86,11 @@ map("n", "<leader>td", gs.toggle_deleted)
 -- Text object
 map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 
-vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<LocalLeader>a", "<cmd>CodeCompanionToggle<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<LocalLeader>a", "<cmd>CodeCompanionToggle<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionAdd<cr>", { noremap = true, silent = true })
+map("n", "<C-a>", "<cmd>CodeCompanionActions<cr>")
+map("v", "<C-a>", "<cmd>CodeCompanionActions<cr>")
+map("n", "<LocalLeader>a", "<cmd>CodeCompanionToggle<cr>")
+map("v", "<LocalLeader>a", "<cmd>CodeCompanionToggle<cr>")
+map("v", "ga", "<cmd>CodeCompanionAdd<cr>")
 
 -- Expand 'cc' into 'CodeCompanion' in the command line
 vim.cmd([[cab cc CodeCompanion]])

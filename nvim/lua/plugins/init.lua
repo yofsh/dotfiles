@@ -107,40 +107,40 @@ return {
 			})
 		end,
 	},
-	{
-		"olimorris/codecompanion.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-telescope/telescope.nvim",
-		},
-		event = "VeryLazy",
-		config = function()
-			-- require("codecompanion").setup({
-			--   strategies = {
-			--     chat = "ollama",
-			--     inline = "ollama",
-			--     agent = "ollama"
-			--   },
-			-- })
-
-			require("codecompanion").setup({
-				adapters = {
-					openai = function()
-						return require("codecompanion.adapters").extend("openai", {
-							env = {
-							},
-						})
-					end,
-					strategies = {
-						chat = "openai",
-						inline = "openai",
-						agent = "openai",
-					},
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"olimorris/codecompanion.nvim",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"nvim-telescope/telescope.nvim",
+	-- 	},
+	-- 	event = "VeryLazy",
+	-- 	config = function()
+	-- 		-- require("codecompanion").setup({
+	-- 		--   strategies = {
+	-- 		--     chat = "ollama",
+	-- 		--     inline = "ollama",
+	-- 		--     agent = "ollama"
+	-- 		--   },
+	-- 		-- })
+	--
+	-- 		require("codecompanion").setup({
+	-- 			adapters = {
+	-- 				openai = function()
+	-- 					return require("codecompanion.adapters").extend("openai", {
+	-- 						env = {
+	-- 						},
+	-- 					})
+	-- 				end,
+	-- 				strategies = {
+	-- 					chat = "openai",
+	-- 					inline = "openai",
+	-- 					agent = "openai",
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"echasnovski/mini.ai",
 		version = false,

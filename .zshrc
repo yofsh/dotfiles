@@ -12,14 +12,13 @@ alias man='nvimman'
 alias reboot_windows="systemctl reboot --boot-loader-entry=auto-windows"
 alias next_boot_windows="sudo bootctl set-oneshot auto-windows"
 
-nix_build_iso() {
-  export NIXPKGS_ALLOW_BROKEN=1
-  nix run nixpkgs#nixos-generators -- --format iso --flake ~/nix#iso -o ~/nix/$(date +"nix_iso_%Y_%m_%d__%H_%M_%S") 
+ec() {
+  cd ~/nix
+  nvim nixos/configuration.nix
 }
 
 alias ai="aichat"
 alias aic="aichat --role %code%"
-alias ais="aichat --role %shell%"
 
 alias zz="zellij"
 alias za="zellij attach || zellij"
@@ -49,7 +48,7 @@ s() {
   nix-shell -p "$res" --command "zsh"
 }
 
-# alias -g nmap="/usr/bin/nmap $@ $(ip -o -f inet addr show | awk '/scope global/ {print $4}' | head -n1)"
+alias -g nmap="/usr/bin/nmap $@ $(ip -o -f inet addr show | awk '/scope global/ {print $4}' | head -n1)"
 
 um() {
   if [[ -z "$1" ]]; then
@@ -239,25 +238,26 @@ export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 if [[ -z $DISPLAY && $TTY = /dev/tty1 ]]; then
   export _JAVA_AWT_WM_NONREPARENTING=1/
   export QT_QPA_PLATFORM=wayland
-  export XDG_CURRENT_DESKTOP=sway
-  export XDG_SESSION_DESKTOP=sway
   export MOZ_ENABLE_WAYLAND=1
   export GDK_BACKEND="wayland,x11"
+  unset WLR_NO_HARDWARE_CURSORS
+  #
+  # get_amd_device() {
+  #   for device in /sys/class/drm/*/device; do
+  #     if [[ -f $device/vendor ]]; then
+  #       ID=$(cat $device/vendor)
+  #       if [[ $ID == *1002* ]]; then
+  #         CARD_PATH=$(echo $device | cut -d'/' -f5)
+  #         echo /dev/dri/$CARD_PATH
+  #         exit 1
+  #       fi
+  #     fi
+  #   done
+  # }
+   # export WLR_DRM_DEVICES=$(get_amd_device)
 
-  get_amd_device() {
-    for device in /sys/class/drm/*/device; do
-      if [[ -f $device/vendor ]]; then
-        ID=$(cat $device/vendor)
-        if [[ $ID == *1002* ]]; then
-          CARD_PATH=$(echo $device | cut -d'/' -f5)
-          echo /dev/dri/$CARD_PATH
-          exit 1
-        fi
-      fi
-    done
-  }
-  # export WLR_DRM_DEVICES=$(get_amd_device)
-  # exec Hyprland &>/dev/null
+   export AQ_DRM_DEVICES=/dev/dri/card2
+  #  exec Hyprland &>/dev/null
 fi
 
 mvp_get() {
