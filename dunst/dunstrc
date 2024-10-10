@@ -30,7 +30,7 @@
     padding = 5
     horizontal_padding = 5
     separator_color = "#FFFFFF00"
-    dmenu = /usr/bin/wofi -dmenu -p dunst:
+    dmenu = walker -d 
     browser = firefox
     min_icon_size=32
     max_icon_size=32

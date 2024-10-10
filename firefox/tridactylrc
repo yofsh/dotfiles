@@ -47,7 +47,9 @@ bindurl .*gpt.yof.sh.* s js document.querySelector('[aria-label="Select a model"
 
 
 unbindurl *.gpt.yof.sh.* n
+unbindurl *.gpt.yof.sh.* <A-a>
 bindurl .*gpt.yof.sh.* n js document.querySelector('#sidebar-new-chat-button').click();
+bindurl .*gpt.yof.sh.* <A-a> js document.querySelector('#sidebar-new-chat-button').click();
 
 setpref browser.pocket.enabled false
 setpref extensions.pocket.enabled false

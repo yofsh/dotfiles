@@ -1,0 +1,38 @@
+{
+  "ui": {
+    "anchors": {
+      "top": false
+    },
+    "window": {
+      "box": {
+        "h_align": "center",
+        "v_align": "center",
+        "scroll": {
+          "list": {
+            "item": {
+              "activation_label": {
+                "width": 20,
+                "x_align": 1
+              },
+              "icon": {
+                "theme": "Papirus"
+              },
+              "spacing": 5
+            },
+            "max_height": 700,
+            "max_width": 500,
+            "min_width": 500,
+            "width": 500
+          }
+        },
+        "search": {
+          "spacing": 10,
+          "width": 400
+        },
+        "width": 400
+      },
+      "h_align": "center",
+      "v_align": "center"
+    }
+  }
+}
