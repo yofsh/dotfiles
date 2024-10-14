@@ -24,6 +24,7 @@
     "clock",
     "custom/headsetbattery",
     "hyprland/language",
+    "custom/dunst",
     "tray"
   ],
   "hyprland/workspaces": {
