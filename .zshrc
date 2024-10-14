@@ -166,12 +166,12 @@ bindkey "^[[1;5D" backward-word
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
-run-tldr() {
-  nvim -c 'set ft=markdown nomod nolist nonu noma' <(tldr -m $BUFFER)
-}
-zle -N run-tldr
-bindkey -r '^[t'
-bindkey '^[t' run-tldr
+# run-tldr() {
+#   nvim -c 'set ft=markdown nomod nolist nonu noma' <(tldr -m $BUFFER)
+# }
+# zle -N run-tldr
+# bindkey -r '^[t'
+# bindkey '^[t' run-tldr
 
 run-chtsh() {
   nvim -c 'set ft=markdown nomod nolist nonu noma' <(curl -s cht.sh/$BUFFER | sed -r "s/\x1B\[[0-9;]*[mK]//g")
@@ -211,53 +211,23 @@ source_if_exists() {
   if [[ -f "$1" ]]; then
     source "$1"
   else
-    #      echo "WARN: trying to source missing file: $1"
+    echo "WARN: trying to source missing file: $1"
   fi
 }
 
-source_if_exists /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source_if_exists /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source_if_exists "$(fzf-share)/key-bindings.zsh"
-source_if_exists "$(fzf-share)/completion.zsh"
-
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-source_if_exists /etc/grc.zsh
-
-unset -v FZF_DEFAULT_OPTS
-
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always  --line-range :50 {}'"
-export FZF_ALT_C_COMMAND='fd --type d . --color=never --hidden'
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --color=always --exclude node_modules --exclude .git'
-export FZF_DEFAULT_OPTS='--no-height --ansi --color=bg+:#343d46,gutter:-1,pointer:#ff3c3c,info:#0dbc79,hl:#0dbc79,hl+:#23d18b'
 
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
+   export AQ_DRM_DEVICES=/dev/dri/card2
 if [[ -z $DISPLAY && $TTY = /dev/tty1 ]]; then
   export _JAVA_AWT_WM_NONREPARENTING=1/
   export QT_QPA_PLATFORM=wayland
   export MOZ_ENABLE_WAYLAND=1
   export GDK_BACKEND="wayland,x11"
-  unset WLR_NO_HARDWARE_CURSORS
-  #
-  # get_amd_device() {
-  #   for device in /sys/class/drm/*/device; do
-  #     if [[ -f $device/vendor ]]; then
-  #       ID=$(cat $device/vendor)
-  #       if [[ $ID == *1002* ]]; then
-  #         CARD_PATH=$(echo $device | cut -d'/' -f5)
-  #         echo /dev/dri/$CARD_PATH
-  #         exit 1
-  #       fi
-  #     fi
-  #   done
-  # }
-   # export WLR_DRM_DEVICES=$(get_amd_device)
 
-   export AQ_DRM_DEVICES=/dev/dri/card2
-  #  exec Hyprland &>/dev/null
+  unset WLR_NO_HARDWARE_CURSORS
+  export AQ_DRM_DEVICES=/dev/dri/card2
+  exec Hyprland &>/dev/null
 fi
 
 mvp_get() {
@@ -301,3 +271,15 @@ _aichat_zsh() {
 }
 zle -N _aichat_zsh
 bindkey '\ee' _aichat_zsh
+
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --color=always --exclude node_modules --exclude .git'
+export FZF_DEFAULT_OPTS='--preview-window=border-none --border=none --no-height --ansi'
+
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=\"changes,header,header-filesize,rule,numbers\" --line-range :50 {}'"
+
+export FZF_ALT_C_COMMAND='fd --type d . --color=always --hidden'
+export FZF_ALT_C_OPTS="--preview 'exa --tree --color=always {} | head -50'"
+
+source_if_exists "$(fzf-share)/key-bindings.zsh"
+source_if_exists "$(fzf-share)/completion.zsh"

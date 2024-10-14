@@ -9,11 +9,6 @@
       "context_aware": true,
       "name": "applications",
       "placeholder": "Applications",
-      "prioritize_new": true,
-      "refresh": true,
-      "show_generic": false,
-      "show_icon_when_single": true,
-      "show_sub_when_single": true,
       "weight": 5,
       "history": true
     },
@@ -23,7 +18,7 @@
       "min_chars": 4,
       "name": "calc",
       "placeholder": "Calculator",
-      "weight": 55,
+      "weight": 4,
       "switcher_only": false
     },
     "clipboard": {
@@ -116,6 +111,31 @@
       "weight": 5
     }
   },
+  "plugins": [
+    {
+      "name": "power",
+      "placeholder": "Power",
+      "switcher_only": false,
+      "keep_sort": true,
+      "entries": [
+        {
+          "label": "Shutdown",
+          "icon": "system-shutdown",
+          "exec": "shutdown now"
+        },
+        {
+          "label": "Reboot",
+          "icon": "system-reboot",
+          "exec": "reboot"
+        },
+        {
+          "label": "Lock Screen",
+          "icon": "system-lock-screen",
+          "exec": "playerctl --all-players pause & hyprlock"
+        }
+      ]
+    }
+  ],
   "disable_click_to_close": false,
   "force_keyboard_focus": true,
   "list": {
