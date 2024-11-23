@@ -48,7 +48,6 @@ s() {
   nix-shell -p "$res" --command "zsh"
 }
 
-alias -g nmap="/usr/bin/nmap $@ $(ip -o -f inet addr show | awk '/scope global/ {print $4}' | head -n1)"
 
 um() {
   if [[ -z "$1" ]]; then
@@ -218,7 +217,6 @@ source_if_exists() {
 
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-   export AQ_DRM_DEVICES=/dev/dri/card2
 if [[ -z $DISPLAY && $TTY = /dev/tty1 ]]; then
   export _JAVA_AWT_WM_NONREPARENTING=1/
   export QT_QPA_PLATFORM=wayland
@@ -226,6 +224,7 @@ if [[ -z $DISPLAY && $TTY = /dev/tty1 ]]; then
   export GDK_BACKEND="wayland,x11"
 
   unset WLR_NO_HARDWARE_CURSORS
+  export OGL_DEDICATED_HW_STATE_PER_CONTEXT=ENABLE_ROBUST
   export AQ_DRM_DEVICES=/dev/dri/card2
   exec Hyprland &>/dev/null
 fi

@@ -9,9 +9,9 @@ layout {
                 args "-b" "20" "8.8.8.8" "192.168.8.1"
                 start_suspended false
             }
-            pane  {
+            pane split_direction="vertical"  {
                 pane command="sh"  {
-                    args "/home/fobos/dotfiles/bin/utils/watch.sh" "-t" "-n0.5" "iwconfig" "wlp6s0"
+                    args "/home/fobos/dotfiles/bin/utils/watch.sh" "-t" "-n0.5" "nmcli -p -c yes d s" 
                     start_suspended false
                 }
 
@@ -24,12 +24,17 @@ layout {
         }
         pane  split_direction="vertical" {
             pane command="gping"  {
-                args "-b" "20" "srv" "wghost" "vps"
+                args "-b" "20" "192.168.1.50" "10.100.0.1" "116.203.205.147"
             }
-            pane  {
+            pane  split_direction="vertical" {
 
                 pane command="mtr"  {
                     args "8.8.8.8"
+                }
+
+                pane command="sh"  {
+                    args "/home/fobos/dotfiles/bin/utils/watch.sh" "-t" "-n0.5" "iwconfig" 
+                    start_suspended false
                 }
             }
         }

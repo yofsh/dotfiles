@@ -25,7 +25,7 @@
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             document.title = documentTitle;
-        }, 800);
+        }, 200);
     };
 
     const onMouseWheel = (e) => {

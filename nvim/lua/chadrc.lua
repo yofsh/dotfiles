@@ -33,11 +33,19 @@ M.ui = {
 
 M.base46 = {
 	transparency = true,
-	theme = "ayu_dark",
+	theme = "doomchad",
 }
 
 M.nvdash = {
 	load_on_startup = true,
+	header = { "yofsh", "", "" },
+	-- buttons = {
+	-- 	{
+	-- 		txt = "  Find Projecct",
+	-- 		keys = "Spc p p",
+	-- 		cmd = "lua require'telescope'.extensions.project.project{display_type = 'full'}",
+	-- 	},
+	-- },
 }
 
 return M
