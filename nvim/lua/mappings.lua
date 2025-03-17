@@ -53,7 +53,7 @@ map(
 	{ desc = "Telescope Find word in a proect" }
 )
 
-map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", { desc = "Telescope Git banches" })
+-- map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", { desc = "Telescope Git banches" })
 
 map(
 	"n",
@@ -61,18 +61,18 @@ map(
 	'<cmd>!footclient -e zsh -c "source ~/.zshrc; lazygit"<CR>',
 	{ desc = "Terminal LazyGit in separate terminal" }
 )
-map("n", "<leader>gg", function()
-	require("nvchad.term").toggle({
-		pos = "float",
-		id = "lazygit",
-		cmd = "lazygit;exit",
-		float_opts = {
-			border = "single",
-			width = 0.98,
-			height = 0.95,
-		},
-	})
-end, { desc = "Terminal LazyGit" })
+-- map("n", "<leader>gg", function()
+-- 	require("nvchad.term").toggle({
+-- 		pos = "float",
+-- 		id = "lazygit",
+-- 		cmd = "lazygit;exit",
+-- 		float_opts = {
+-- 			border = "single",
+-- 			width = 0.98,
+-- 			height = 0.95,
+-- 		},
+-- 	})
+-- end, { desc = "Terminal LazyGit" })
 
 map({ "n", "t" }, "<A-`>", function()
 	require("nvchad.term").toggle({
@@ -81,7 +81,7 @@ map({ "n", "t" }, "<A-`>", function()
 		float_opts = {
 			border = "single",
 			width = 1,
-			height = 0.6,
+			height = 0.8,
 		},
 	})
 end, { desc = "Terminal Toggle Floating term" })
@@ -111,7 +111,9 @@ map(
 	{ desc = "Add missing + Orginize + Removed unused" }
 )
 
--- Git Signs
+
+
+-- map('n', '<leader>gy', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>', {desc= "Open git current line in browser"})
 local gs = require("gitsigns")
 map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
 map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
