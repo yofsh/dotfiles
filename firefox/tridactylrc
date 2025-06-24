@@ -3,7 +3,7 @@ sanitize tridactyllocal tridactylsync
 command openmpv js tri.native.run(`notify-send "Opening ${window.location.href.split('&')[0]}"`);tri.native.run(`mpv ${window.location.href.split('&')[0]} `).then(console.log)
 
 
-bind EE js tri.excmds.source(); tri.excmds.fillcmdline_tmp(1000, "Config reloaded!!!"); 
+bind EE js tri.excmds.source(); tri.excmds.fillcmdline_tmp(1000, "Config reloaded!!3!"); 
 bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
 
 bind ` fillcmdline_notrail
@@ -15,11 +15,14 @@ bind gD winmerge
 unbind <C-d>
 unbind <C-e>
 
+
+
 blacklistadd monekytype.com
 blacklistadd http://srv:8123
 blacklistadd ha
 blacklistadd console.hetzner.cloud
 blacklistadd web.telegram.org
+blacklistadd playclassic.games
 
 alias works js tri.excmds.fillcmdline_tmp(3000, "It works")
 alias wallpaper js -p tri.excmds.shellescape(JS_ARG).then(url => tri.excmds.exclaim_quiet('/home/fobos/dotfiles/bin/wallpaper.sh ' + url))

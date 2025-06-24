@@ -1,100 +1,122 @@
 // ==UserScript==
 // @name         Custom HTML5 video hotkeys
-// @version      0.1
+// @version      0.2
 // @match        *://*/*
-// @exclude    http://srv:8123*
-// @exclude    http://192.168.1.50:8123*
+// @exclude      http://srv:8123*
+// @exclude      http://192.168.1.50:8123*
 // @grant        none
 // ==/UserScript==
 
 (function () {
-  let documentTitle = document.title;
-  let timeout;
+  let originalTitle = document.title;
+  let titleTimeout;
 
-  console.log("Initializing custom hotkeys");
-
-  const setVideosSpeed = (speed) => {
+  function showSpeedInTitle(speed) {
     if (!document.title.startsWith("[ ") && !document.title.endsWith(" ]")) {
-      documentTitle = document.title;
+      originalTitle = document.title;
     }
-    console.log("setting new speed", speed);
-    [...document.querySelectorAll("video")].forEach((vd) => {
-      vd.playbackRate = speed;
-    });
-
-    [...document.querySelectorAll("iframe")].forEach((iframe) => {
-      try {
-        [...iframe.contentWindow.document.querySelectorAll("video")].forEach(
-          (vd) => {
-            vd.playbackRate = speed;
-          },
-        );
-      } catch (e) {
-        console.error("Unable to access iframe:", e);
-      }
-    });
     document.title = `[ ${speed.toFixed(1)} ]`;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      document.title = documentTitle;
+    clearTimeout(titleTimeout);
+    titleTimeout = setTimeout(() => {
+      document.title = originalTitle;
     }, 200);
-  };
+  }
 
-  const onMouseWheel = (e) => {
+  function setAllVideosSpeed(speed) {
+    document.querySelectorAll("video").forEach((video) => {
+      video.playbackRate = speed;
+    });
+    document.querySelectorAll("iframe").forEach((iframe) => {
+      try {
+        iframe.contentWindow.document.querySelectorAll("video").forEach((video) => {
+          video.playbackRate = speed;
+        });
+      } catch (e) {}
+    });
+    showSpeedInTitle(speed);
+    console.log("Set video speed to", speed);
+  }
+
+  function getFirstVideo() {
+    return document.querySelector("video");
+  }
+
+  function handleWheel(e) {
     if (!e.shiftKey) return;
-    const v = document.querySelector("video");
+    const video = getFirstVideo();
+    if (!video) return;
     if (e.ctrlKey) {
-      let delta = 5;
-      if (e.wheelDelta < 0) {
-        delta = -5;
-      }
-      v.currentTime = v.currentTime + delta;
+      const seekDelta = e.wheelDelta < 0 ? -5 : 5;
+      video.currentTime += seekDelta;
       e.stopPropagation();
       return;
     }
-    let delta = 0.1;
-    if (e.wheelDelta < 0) {
-      delta = -0.1;
-    }
-    const newRate = v.playbackRate + delta;
-    setVideosSpeed(newRate);
-  };
-  document.body.addEventListener("wheel", onMouseWheel);
+    const speedDelta = e.wheelDelta < 0 ? -0.1 : 0.1;
+    const newSpeed = Math.max(0.1, video.playbackRate + speedDelta);
+    setAllVideosSpeed(newSpeed);
+  }
 
-  const onKeyDown = (e) => {
-    const videoSpeedMod = e.shiftKey;
-    const videoSourceMod = e.altKey;
-    if (e.key === " " && videoSourceMod) {
-      document.querySelector("video")?.requestFullscreen();
-    }
-    if (!videoSpeedMod) {
-      return;
-    }
+  function handleKeyDown(e) {
+    const video = getFirstVideo();
+    if (!video) return;
 
-    // if (videoSourceMod) {
-    //     switch (e.keyCode) {
-    //         case 49: //1
-    //             document.location.hostname = "youtube.com";
-    //             break;
-    //         case 50: //2
-    //             document.location.hostname = "piped.kavin.rocks";
-    //             break;
-    //         case 51: //3
-    //             document.location.hostname = "yewtu.be";
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    //     return;
-    // }
+    function matchHotkey(hotkey, e) {
+      const parts = hotkey.split("+");
+      const key = parts.pop();
+      const needCtrl = parts.includes("Ctrl");
+      const needAlt = parts.includes("Alt");
+      const needShift = parts.includes("Shift");
+      
+      // Check if any other modifier keys are pressed
+      if (e.metaKey || (!needCtrl && e.ctrlKey) || (!needAlt && e.altKey) || (!needShift && e.shiftKey)) {
+        return false;
+      }
 
-    if (e.keyCode <= 48 || e.keyCode >= 55) {
-      return;
+      if (key.startsWith("Digit")) {
+        return (
+          e.code === key &&
+          e.ctrlKey === needCtrl &&
+          e.altKey === needAlt &&
+          e.shiftKey === needShift
+        );
+      }
+      return (
+        e.key === key &&
+        e.ctrlKey === needCtrl &&
+        e.altKey === needAlt &&
+        e.shiftKey === needShift
+      );
     }
 
-    const newSpeed = (e.keyCode - 47) / 2;
-    setVideosSpeed(newSpeed >= 1 ? newSpeed : 1);
-    console.log(`Keydown:`, e.keyCode, newSpeed);
-  };
-  document.body.addEventListener("keydown", onKeyDown, false);
+    const numKeys = ["1","2","3","4","5","6","7","8","9"];
+    const digitCodes = ["Digit1","Digit2","Digit3","Digit4","Digit5","Digit6","Digit7","Digit8","Digit9"];
+    const hotkeys = [
+      ["Ctrl+9", () => {
+        const iframe = document.querySelector("iframe:not(#cmdline_iframe)");
+        if (iframe?.src) window.open(iframe.src, "_blank");
+      }],
+      ["Alt+ ", () => video.requestFullscreen()],
+      ...digitCodes.slice(0,7).map((code, i) => ["Shift+"+code, () => setAllVideosSpeed(Math.max(1, (i+1)/2))]),
+      ...numKeys.slice(0,7).map(k => ["Ctrl+"+k, () => setAllVideosSpeed(Math.max(1, parseInt(k,10)/2))]),
+      ["Shift+ArrowLeft", () => { video.currentTime = Math.max(0, video.currentTime - 10 * video.playbackRate); }],
+      ["Shift+ArrowRight", () => { video.currentTime = Math.min(video.duration, video.currentTime + 10 * video.playbackRate); }],
+      ...numKeys.map(k => [k, () => { video.currentTime = video.duration * (parseInt(k,10)*0.1); }]),
+    ];
+
+    for (const [hotkey, handler] of hotkeys) {
+      if (matchHotkey(hotkey, e)) {
+        handler(e.key);
+        e.preventDefault();
+        return;
+      }
+    }
+  }
+
+  function init() {
+    console.log("Initializing custom video hotkeys");
+    document.body.addEventListener("wheel", handleWheel);
+    document.body.addEventListener("keydown", handleKeyDown, false);
+  }
+
+  init();
 })();
