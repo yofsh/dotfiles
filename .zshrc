@@ -2,6 +2,9 @@ if [ -d "$HOME/bin" ]; then
   export PATH="$HOME/bin:$HOME/bin/status:$HOME/bin/utils:$PATH"
 fi
 
+
+export EDITOR='nvim'
+export VISUAL='nvim'
 export PATH="$HOME/dotfiles/bin:$HOME/dotfiles/bin/status:$HOME/dotfiles/bin/utils:$PATH"
 
 nvimman() {
@@ -17,13 +20,45 @@ ec() {
   nvim nixos/configuration.nix
 }
 
+alias cc="claude --dangerously-skip-permissions"
+
 alias ai="aichat"
 alias aic="aichat --role %code%"
 
-alias zz="zellij"
-alias za="zellij attach || zellij"
+
+
+
 alias zka="zellij kill-all-sessions"
 alias zda="zellij delete-all-sessions"
+
+zellij_list_layouts() {
+  selected=$(fd -e kdl -t f -E node_modules . ~/dev | fzf --ansi --preview='bat --style=numbers --color=always {}' --preview-window=right:50%) && [[ -n $selected ]] && zellij -l "$selected"
+}
+
+alias zls="zellij_list_layouts"
+
+zz() {
+  local session_name=$(basename "$PWD")
+  if zellij list-sessions 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $1}' | grep -q "^$session_name$"; then
+    zellij attach "$session_name"
+  else
+    local kdl_files=(*.kdl(N))
+    if (( ${#kdl_files[@]} == 1 )); then
+      zellij -l "${kdl_files[1]}" -s "$session_name"
+    else
+      zellij -s "$session_name"
+    fi
+  fi
+}
+
+za() {
+  local session=$(zellij list-sessions 2>/dev/null | fzf --ansi | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $1}')
+  [[ -n "$session" ]] && zellij attach "$session"
+}
+
+
+
+
 
 alias hs="nh home switch ~/nix"
 alias os="nh os switch ~/nix"
@@ -78,7 +113,15 @@ alias ld='lazydocker'
 alias -g v=nvim
 alias vim=nvim
 alias nn="nnn -T t -i -A -H"
-alias f="yazi"
+# alias f="yazi"
+function f() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
 alias optimus_status="cat /sys/bus/pci/devices/0000\:01\:00.0/power/runtime_status"
 
 alias trl="transmission-remote -l"
@@ -259,17 +302,19 @@ bindkey "^[o" showbuffers
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
+
 _aichat_zsh() {
-  if [[ -n "$BUFFER" ]]; then
-    local _old=$BUFFER
-    BUFFER+="⌛"
-    zle -I && zle redisplay
-    BUFFER=$(aichat -e "$_old")
-    zle end-of-line
-  fi
+    if [[ -n "$BUFFER" ]]; then
+        local _old=$BUFFER
+        BUFFER+="⌛"
+        zle -I && zle redisplay
+	BUFFER=$(aichat --role "%shell%" "$_old")
+        zle end-of-line
+    fi
 }
 zle -N _aichat_zsh
 bindkey '\ee' _aichat_zsh
+
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --color=always --exclude node_modules --exclude .git'
 export FZF_DEFAULT_OPTS='--preview-window=border-none --border=none --no-height --ansi'
